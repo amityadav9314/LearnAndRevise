@@ -31,9 +31,9 @@ export default function EditScreenInfo({ path }: { path: string }) {
         </Text>
       </View>
 
-      <View style={styles.helpContainer}>
-        <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-          <Text style={styles.helpLinkText} lightColor={Colors.light.tint}>
+      <View style={styles.topic}>
+        <TouchableOpacity onPress={handleHelpPress} style={styles.topicLink}>
+          <Text style={styles.topicLinkText} lightColor={Colors.light.tint}>
             Tap here if your app doesn't automatically update after making changes
           </Text>
         </TouchableOpacity>
@@ -65,15 +65,15 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     textAlign: 'center',
   },
-  helpContainer: {
+  topic: {
     marginTop: 15,
     marginHorizontal: 20,
     alignItems: 'center',
   },
-  helpLink: {
+  topicLink: {
     paddingVertical: 15,
   },
-  helpLinkText: {
+  topicLinkText: {
     textAlign: 'center',
   },
 });
