@@ -8,8 +8,11 @@ import useTopicResources from "../hooks/useTopicResources";
 import Loading from "./Loading";
 import ReadType from "../dtos/ReadType";
 
-export default function TodaysTopicsToRevise() {
-  let [isLoadingComplete, topics] = useTopicResources(ReadType.REVISE);
+interface Props {
+  readType: ReadType
+}
+export default function Posts(props: Props) {
+  let [isLoadingComplete, topics] = useTopicResources(props.readType);
   if (!isLoadingComplete) return null;
   const loadingComponent = <Loading/>;
 

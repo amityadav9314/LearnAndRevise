@@ -1,15 +1,15 @@
 import { StyleSheet } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-import Blog from "../components/Blog";
+import Posts from "../components/Posts";
+import ReadType from "../dtos/ReadType";
 
 export default function LearnScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Don't let the byte code bite you</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Blog />
+      <Posts readType={ReadType.LEARN}/>
     </View>
   );
 }
