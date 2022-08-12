@@ -4,7 +4,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import Blog from "../components/Blog";
 
-export default function TabTwoScreen() {
+export default function LearnScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Don't let the byte code bite you</Text>

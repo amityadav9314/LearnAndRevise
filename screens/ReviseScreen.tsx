@@ -4,7 +4,7 @@ import TodaysTopicsToRevise from '../components/TodaysTopicsToRevise';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function ReviseScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Today's Topics To Revise...</Text>
