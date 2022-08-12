@@ -4,7 +4,7 @@ import * as constants from '../constants/General';
 
 import Colors from '../constants/Colors';
 import {Text, View} from './Themed';
-import useTopicResources from "../hooks/useTopicResources";
+import usePostsResources from "../hooks/usePostsResources";
 import Loading from "./Loading";
 import ReadType from "../dtos/ReadType";
 
@@ -12,7 +12,7 @@ interface Props {
   readType: ReadType
 }
 export default function Posts(props: Props) {
-  let [isLoadingComplete, topics] = useTopicResources(props.readType);
+  let [isLoadingComplete, topics] = usePostsResources(props.readType);
   if (!isLoadingComplete) return null;
   const loadingComponent = <Loading/>;
 
@@ -29,7 +29,7 @@ export default function Posts(props: Props) {
       data={topics.results}
       ListEmptyComponent={renderNoStateMessage()}
       keyExtractor={(item) => item.id.toString()}
-      renderItem={({item}: ListRenderItemInfo<Topic>) => {
+      renderItem={({item}: ListRenderItemInfo<Post>) => {
         return (
           <View style={styles.topic}>
             <TouchableOpacity

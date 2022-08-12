@@ -2,9 +2,9 @@ import {useEffect, useState} from "react";
 import * as constants from '../constants/General';
 import ReadType from "../dtos/ReadType";
 
-export default function useTopicResources(readType: ReadType): [boolean, TopicDTO] {
+export default function usePostsResources(readType: ReadType): [boolean, PostsDTO] {
   const [isLoadingComplete, setLoadingComplete] = useState<boolean>(false);
-  const [topics, setTopics] = useState<TopicDTO>();
+  const [topics, setTopics] = useState<PostsDTO>();
 
   const getTodaysTopicsToRevise = async () => {
     try {

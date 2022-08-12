@@ -1,7 +1,7 @@
 
-interface TopicDTO {
+interface PostsDTO {
   count: number,
   next: string,
   previous: string,
-  results: Array<Topic>
+  results: Array<Post>
 }
