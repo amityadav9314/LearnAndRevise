@@ -7,10 +7,13 @@ import {Text, View} from './Themed';
 import usePostsResources from "../hooks/usePostsResources";
 import Loading from "./Loading";
 import ReadType from "../dtos/ReadType";
+import {FontAwesome} from '@expo/vector-icons';
+
 
 interface Props {
   readType: ReadType
 }
+
 export default function Posts(props: Props) {
   let [isLoadingComplete, topics] = usePostsResources(props.readType);
   if (!isLoadingComplete) return null;
@@ -32,15 +35,28 @@ export default function Posts(props: Props) {
       renderItem={({item}: ListRenderItemInfo<Post>) => {
         return (
           <View style={styles.topic}>
-            <TouchableOpacity
-              onPress={() => handleHelpPress(item.get_absolute_url)}
-              style={styles.topicLink}
-            >
-              <Text style={styles.topicLinkText}
-                    lightColor={Colors.light.tint}>
-                {item.title}
-              </Text>
-            </TouchableOpacity>
+            <View>
+              <TouchableOpacity
+                onPress={() => handleViewPosts(item.get_absolute_url)}
+                style={styles.touchable}
+              >
+                <Text style={styles.topicLinkText} lightColor={Colors.light.tint}>
+                  {item.title}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            {
+              props.readType == ReadType.LEARN
+              &&
+              <View>
+                <TouchableOpacity
+                  onPress={() => handleMarkPostAsRead(item.id)}
+                  style={styles.touchable}
+                >
+                  <FontAwesome style={styles.eye} name={'eye-slash'}/>
+                </TouchableOpacity>
+              </View>
+            }
           </View>
         );
       }}
@@ -52,25 +68,34 @@ export default function Posts(props: Props) {
   );
 }
 
-function handleHelpPress(endpoint: string) {
+function handleMarkPostAsRead(id: number) {
+  alert("Mark as read");
+}
+
+function handleViewPosts(endpoint: string) {
   const url = constants.topicIP + endpoint;
   WebBrowser.openBrowserAsync(url);
 }
 
 const styles = StyleSheet.create({
   topic: {
-    alignItems: 'flex-start',
     borderColor: '#e5e5e5',
     backgroundColor: '#f5f5f5',
     borderWidth: 1,
     padding: 10,
-    margin: 5
+    margin: 5,
+    flexDirection: 'row',
+    alignItem: 'center',
+    justifyContent: 'space-between',
   },
-  topicLink: {
+  touchable: {
     paddingVertical: 5,
+    borderColor: '#e5e5e5',
+    backgroundColor: '#f5f5f5',
   },
   topicLinkText: {
     color: '#000',
+    fontSize: 20,
   },
   noTopic: {
     borderColor: '#e5e5e5',
@@ -79,5 +104,10 @@ const styles = StyleSheet.create({
     padding: 50,
     margin: 5,
     textAlign: 'center',
+  },
+  eye: {
+    color: '#000',
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 });
