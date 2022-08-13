@@ -1,5 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
-import {FlatList, ListRenderItemInfo, RefreshControl, StyleSheet, TouchableOpacity} from 'react-native';
+import {FlatList, ListRenderItemInfo, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
 import * as constants from '../constants/General';
 
 import Colors from '../constants/Colors';
@@ -56,8 +56,8 @@ export default function Posts(props: Props) {
       data={topicData.results}
       ListEmptyComponent={renderNoStateMessage()}
       keyExtractor={(item) => item.id.toString()}
-      refreshing={ !refreshed }
-      onRefresh={ refresh }
+      refreshing={!refreshed}
+      onRefresh={refresh}
       renderItem={({item}: ListRenderItemInfo<Post>) => {
         return (
           <View style={styles.topic}>
@@ -88,9 +88,9 @@ export default function Posts(props: Props) {
       }}
     />;
   return (
-    <View>
+    <SafeAreaView>
       {refreshed ? topicsComponent : loadingComponent}
-    </View>
+    </SafeAreaView>
   );
 }
 
