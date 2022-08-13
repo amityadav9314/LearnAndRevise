@@ -1,29 +1,45 @@
 import * as WebBrowser from 'expo-web-browser';
-import {FlatList, ListRenderItemInfo, StyleSheet, TouchableOpacity} from 'react-native';
+import {FlatList, ListRenderItemInfo, RefreshControl, StyleSheet, TouchableOpacity} from 'react-native';
 import * as constants from '../constants/General';
 
 import Colors from '../constants/Colors';
 import {Text, View} from './Themed';
-import usePostsResources from "../hooks/usePostsResources";
 import Loading from "./Loading";
 import ReadType from "../dtos/ReadType";
 import {FontAwesome} from '@expo/vector-icons';
-
+import {useEffect, useState} from "react";
+import GetPosts from "../rest/getPosts";
 
 interface Props {
   readType: ReadType
 }
 
 export default function Posts(props: Props) {
-  let topics = usePostsResources(props.readType);
-  if (!topics) {
+  const [topicData, setTopicData] = useState<PostsDTO>();
+  const [refreshed, setRefreshed] = useState(false);
+
+  const refresh = () => {
+    console.log("refresh method is called");
+    GetPosts(props.readType)
+      .then(r => {
+        setTopicData(r);
+        setRefreshed(true);
+      });
+  }
+
+  useEffect(() => {
+    refresh();
+  }, []);
+
+
+  if (!topicData) {
+    console.log("topic data is not loaded");
     return (
       <View>
-        <Loading />
+        <Loading/>
       </View>
     );
   }
-
 
   const renderNoStateMessage = () => {
     return (
@@ -33,11 +49,15 @@ export default function Posts(props: Props) {
     );
   }
 
+  const loadingComponent = <Loading/>;
+
   const topicsComponent =
     <FlatList
-      data={topics.results}
+      data={topicData.results}
       ListEmptyComponent={renderNoStateMessage()}
       keyExtractor={(item) => item.id.toString()}
+      refreshing={ !refreshed }
+      onRefresh={ refresh }
       renderItem={({item}: ListRenderItemInfo<Post>) => {
         return (
           <View style={styles.topic}>
@@ -69,7 +89,7 @@ export default function Posts(props: Props) {
     />;
   return (
     <View>
-      {topicsComponent}
+      {refreshed ? topicsComponent : loadingComponent}
     </View>
   );
 }
