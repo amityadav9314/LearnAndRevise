@@ -1,33 +1,14 @@
 import {useEffect, useState} from "react";
-import * as constants from '../constants/General';
 import ReadType from "../dtos/ReadType";
+import GetPosts from "../rest/getPosts";
 
-export default function usePostsResources(readType: ReadType): [boolean, PostsDTO] {
-  const [isLoadingComplete, setLoadingComplete] = useState<boolean>(false);
+export default function usePostsResources(readType: ReadType): PostsDTO {
   const [topics, setTopics] = useState<PostsDTO>();
 
-  const getTodaysTopicsToRevise = async () => {
-    try {
-      let url = constants.topicIP + "/rest/posts/revise/";
-      if(readType == ReadType.LEARN) {
-        url = constants.topicIP + "/rest/posts/";
-      }
-      const resp = await fetch(url);
-      const respJson = await resp.json();
-      setTopics(respJson);
-      setLoadingComplete(true);
-      console.log("Resp: " + JSON.stringify(respJson));
-    } catch (e) {
-      console.log("Error occurred while fetch topics: " + e);
-      throw e;
-    }
-  }
-
-  // Loading all topics automatically when the app opens. No
-  // event needs to be triggered by user.
   useEffect(() => {
-    getTodaysTopicsToRevise();
+    GetPosts(readType)
+      .then(resp => setTopics(resp));
   }, []);
 
-  return [isLoadingComplete, topics!];
+  return topics!;
 }

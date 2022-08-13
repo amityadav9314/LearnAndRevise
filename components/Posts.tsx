@@ -15,9 +15,15 @@ interface Props {
 }
 
 export default function Posts(props: Props) {
-  let [isLoadingComplete, topics] = usePostsResources(props.readType);
-  if (!isLoadingComplete) return null;
-  const loadingComponent = <Loading/>;
+  let topics = usePostsResources(props.readType);
+  if (!topics) {
+    return (
+      <View>
+        <Loading />
+      </View>
+    );
+  }
+
 
   const renderNoStateMessage = () => {
     return (
@@ -63,7 +69,7 @@ export default function Posts(props: Props) {
     />;
   return (
     <View>
-      {isLoadingComplete ? topicsComponent : loadingComponent}
+      {topicsComponent}
     </View>
   );
 }
