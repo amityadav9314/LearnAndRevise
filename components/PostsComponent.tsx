@@ -9,12 +9,13 @@ import ReadType from "../dtos/ReadType";
 import {FontAwesome} from '@expo/vector-icons';
 import {useEffect, useState} from "react";
 import GetPosts from "../rest/getPosts";
+import PostRevise from "../rest/postRevise";
 
 interface Props {
   readType: ReadType
 }
 
-export default function Posts(props: Props) {
+export default function PostsComponent(props: Props) {
   const [topicData, setTopicData] = useState<PostsDTO>();
   const [refreshed, setRefreshed] = useState(false);
 
@@ -76,7 +77,7 @@ export default function Posts(props: Props) {
               &&
               <View>
                 <TouchableOpacity
-                  onPress={() => handleMarkPostAsRead(item.id)}
+                  onPress={() => handleMarkPostAsRead(item.id, item.title)}
                   style={styles.touchable}
                 >
                   <FontAwesome style={styles.eye} name={'eye-slash'}/>
@@ -94,8 +95,14 @@ export default function Posts(props: Props) {
   );
 }
 
-function handleMarkPostAsRead(id: number) {
-  alert("Mark as read");
+function handleMarkPostAsRead(id: number, title: String) {
+  PostRevise(id).then(r => {
+    if(r.status == 'success') {
+      alert("Post `" + title + "` marked to be revised later");
+    } else {
+      alert("Error: " + r.error);
+    }
+  });
 }
 
 function handleViewPosts(endpoint: string) {

@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 import {Text, View} from '../components/Themed';
-import Posts from "../components/Posts";
+import PostsComponent from "../components/PostsComponent";
 import ReadType from "../dtos/ReadType";
 
 export default function LearnScreen() {
@@ -9,7 +9,7 @@ export default function LearnScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Don't let the byte code bite you</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)"/>
-      <Posts readType={ReadType.LEARN}/>
+      <PostsComponent readType={ReadType.LEARN}/>
     </View>
   );
 }

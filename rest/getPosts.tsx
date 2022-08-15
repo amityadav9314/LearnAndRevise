@@ -3,7 +3,7 @@ import {topicIP} from "../constants/General";
 
 async function GetPosts(readType: ReadType): Promise<PostsDTO> {
   try {
-    let url = topicIP + "/rest/posts/revise/";
+    let url = topicIP + "/rest/revise/";
     if (readType == ReadType.LEARN) {
       url = topicIP + "/rest/posts/";
     }
