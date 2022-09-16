@@ -10,7 +10,7 @@ export default function ReviseScreen({ navigation }: RootTabScreenProps<'TabOne'
     <View style={styles.container}>
       <Text style={styles.title}>Today's Topics To Revise...</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <PostsComponent readType={ReadType.REVISE}/>
+      <PostsComponent readType={ReadType.REVISE} nav={navigation}/>
     </View>
   );
 }

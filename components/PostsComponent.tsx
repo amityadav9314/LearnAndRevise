@@ -1,5 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
-import {FlatList, ListRenderItemInfo, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
+import {Button, FlatList, ListRenderItemInfo, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
 import * as constants from '../constants/General';
 
 import Colors from '../constants/Colors';
@@ -7,13 +7,17 @@ import {Text, View} from './Themed';
 import Loading from "./Loading";
 import ReadType from "../dtos/ReadType";
 import {FontAwesome} from '@expo/vector-icons';
+import * as React from "react";
 import {useEffect, useState} from "react";
 import GetPosts from "../rest/getPosts";
 import PostRevise from "../rest/postRevise";
 import DeleteRevise from "../rest/deleteRevise";
+import {NavigationProp} from "@react-navigation/native";
+
 
 interface Props {
   readType: ReadType
+  nav: NavigationProp<any>
 }
 
 export default function PostsComponent(props: Props) {
@@ -43,10 +47,20 @@ export default function PostsComponent(props: Props) {
     );
   }
 
+  function onPressLearn() {
+    props.nav.navigate("TabTwo");
+  }
+
   const renderNoStateMessage = () => {
     return (
       <View>
         <Text style={styles.noTopic}>You have no nothing to revise.</Text>
+        <Button
+          onPress={onPressLearn}
+          title="Start Learning"
+          color="#841584"
+          accessibilityLabel="Learn BC"
+        />
       </View>
     );
   }
@@ -55,10 +69,9 @@ export default function PostsComponent(props: Props) {
 
   const markForRevision = (item: Post) => {
     return (
-      <View>
+      <View style={styles.content}>
         <TouchableOpacity
           onPress={() => handleMarkRevise(item.id, item.title)}
-          style={styles.touchable}
         >
           <FontAwesome style={styles.eye} name={'eye-slash'}/>
         </TouchableOpacity>
@@ -68,10 +81,9 @@ export default function PostsComponent(props: Props) {
 
   const unMarkForRevision = (item: Post) => {
     return (
-      <View>
+      <View style={styles.content}>
         <TouchableOpacity
           onPress={() => handleUnmarkRevise(item.id, item.title)}
-          style={styles.touchable}
         >
           <FontAwesome style={styles.eye} name={'cloud'}/>
         </TouchableOpacity>
@@ -89,10 +101,9 @@ export default function PostsComponent(props: Props) {
       renderItem={({item}: ListRenderItemInfo<Post>) => {
         return (
           <View style={styles.topic}>
-            <View>
+            <View style={styles.content}>
               <TouchableOpacity
                 onPress={() => handleViewPosts(item.get_absolute_url)}
-                style={styles.touchable}
               >
                 <Text style={styles.topicLinkText} lightColor={Colors.light.tint}>
                   {item.title}
@@ -157,7 +168,7 @@ const styles = StyleSheet.create({
     alignItem: 'center',
     justifyContent: 'space-between',
   },
-  touchable: {
+  content: {
     paddingVertical: 5,
     borderColor: '#e5e5e5',
     backgroundColor: '#f5f5f5',

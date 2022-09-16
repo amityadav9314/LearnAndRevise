@@ -67,29 +67,45 @@ function BottomTabNavigator() {
         component={ReviseScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
           title: 'Revise',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          // headerRight: () => (
-          //   <Pressable
-          //     onPress={() => navigation.navigate('Modal')}
-          //     style={({ pressed }) => ({
-          //       opacity: pressed ? 0.5 : 1,
-          //     })}>
-          //     <FontAwesome
-          //       name="info-circle"
-          //       size={25}
-          //       color={Colors[colorScheme].text}
-          //       style={{ marginRight: 15 }}
-          //     />
-          //   </Pressable>
-          // ),
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate('Modal')}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}>
+              <FontAwesome
+                name="info-circle"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
         })}
       />
       <BottomTab.Screen
         name="TabTwo"
         component={LearnScreen}
         options={{
-          title: 'Learn',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Yours Posts',
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="TabThree"
+        component={LearnScreen}
+        options={{
+          title: 'Everyone posts',
+          tabBarIcon: ({ color }) => <TabBarIcon name="random" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="TabFour"
+        component={LearnScreen}
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color }) => <TabBarIcon name="gear" color={color} />,
         }}
       />
     </BottomTab.Navigator>

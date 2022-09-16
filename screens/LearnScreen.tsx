@@ -3,13 +3,14 @@ import {StyleSheet} from 'react-native';
 import {Text, View} from '../components/Themed';
 import PostsComponent from "../components/PostsComponent";
 import ReadType from "../dtos/ReadType";
+import {RootTabScreenProps} from "../types";
 
-export default function LearnScreen() {
+export default function LearnScreen({ navigation }: RootTabScreenProps<'TabTwo'>) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Don't let the byte code bite you</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)"/>
-      <PostsComponent readType={ReadType.LEARN}/>
+      <PostsComponent readType={ReadType.LEARN} nav={navigation}/>
     </View>
   );
 }
