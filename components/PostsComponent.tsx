@@ -1,5 +1,13 @@
 import * as WebBrowser from 'expo-web-browser';
-import {Button, FlatList, ListRenderItemInfo, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Button,
+  FlatList,
+  ListRenderItemInfo,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  useColorScheme
+} from 'react-native';
 import * as constants from '../constants/General';
 
 import Colors from '../constants/Colors';
@@ -23,6 +31,12 @@ interface Props {
 export default function PostsComponent(props: Props) {
   const [topicData, setTopicData] = useState<PostsDTO>();
   const [refreshed, setRefreshed] = useState(false);
+  const colorScheme = useColorScheme();
+
+  const themeTextStyle = colorScheme === 'light' ? styles.lightThemeText : styles.darkThemeText;
+  const themeContainerStyle =
+    colorScheme === 'light' ? styles.lightContainer : styles.darkContainer;
+
 
   const refresh = () => {
     console.log("refresh method is called");
@@ -53,12 +67,13 @@ export default function PostsComponent(props: Props) {
 
   const renderNoStateMessage = () => {
     return (
-      <View>
-        <Text style={styles.noTopic}>You have no nothing to revise.</Text>
+      <View style={[styles.noTopic, themeContainerStyle]}>
+        <Text style={[themeTextStyle]}>You have no nothing to revise today.</Text>
+        <FontAwesome style={[{fontSize: 50, marginBottom: 30, color: 'green'}]} name={'check'}/>
         <Button
           onPress={onPressLearn}
           title="Start Learning"
-          color="#841584"
+          color={Colors.defaultBtnColor}
           accessibilityLabel="Learn BC"
         />
       </View>
@@ -69,11 +84,11 @@ export default function PostsComponent(props: Props) {
 
   const markForRevision = (item: Post) => {
     return (
-      <View style={styles.content}>
+      <View style={[styles.content, themeContainerStyle]}>
         <TouchableOpacity
           onPress={() => handleMarkRevise(item.id, item.title)}
         >
-          <FontAwesome style={styles.eye} name={'eye-slash'}/>
+          <FontAwesome style={[styles.eye, themeTextStyle]} name={'envelope'}/>
         </TouchableOpacity>
       </View>
     );
@@ -81,11 +96,11 @@ export default function PostsComponent(props: Props) {
 
   const unMarkForRevision = (item: Post) => {
     return (
-      <View style={styles.content}>
+      <View style={[styles.content, themeContainerStyle]}>
         <TouchableOpacity
           onPress={() => handleUnmarkRevise(item.id, item.title)}
         >
-          <FontAwesome style={styles.eye} name={'cloud'}/>
+          <FontAwesome style={[styles.eye, themeTextStyle]} name={'envelope-open'}/>
         </TouchableOpacity>
       </View>
     );
@@ -100,13 +115,13 @@ export default function PostsComponent(props: Props) {
       onRefresh={refresh}
       renderItem={({item}: ListRenderItemInfo<Post>) => {
         return (
-          <View style={styles.topic}>
-            <View style={styles.content}>
+          <View style={[styles.topic, themeContainerStyle]}>
+            <View style={[styles.content, themeContainerStyle]}>
               <TouchableOpacity
                 onPress={() => handleViewPosts(item.get_absolute_url)}
               >
-                <Text style={styles.topicLinkText} lightColor={Colors.light.tint}>
-                  {item.title}
+                <Text style={[styles.topicLinkText, themeTextStyle]}>
+                  <FontAwesome style={[styles.eye, themeTextStyle]} name={'play-circle-o'}/> {item.title}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -126,7 +141,7 @@ export default function PostsComponent(props: Props) {
       }}
     />;
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1, flexDirection: 'row'}}>
       {refreshed ? topicsComponent : loadingComponent}
     </SafeAreaView>
   );
@@ -186,8 +201,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   eye: {
-    color: '#000',
     fontSize: 20,
     fontWeight: 'bold'
-  }
+  },
+  lightContainer: {
+    backgroundColor: '#f5f5f5',
+  },
+  darkContainer: {
+    backgroundColor: '#1f1d1d',
+  },
+  lightThemeText: {
+    color: '#242c40',
+  },
+  darkThemeText: {
+    color: '#d0d0c0',
+  },
 });

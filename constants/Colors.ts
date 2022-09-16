@@ -1,7 +1,9 @@
 const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
+const btnColor = "#841584";
 
 export default {
+  defaultBtnColor: btnColor,
   light: {
     text: '#000',
     background: '#fff',

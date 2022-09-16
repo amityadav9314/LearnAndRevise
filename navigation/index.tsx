@@ -18,6 +18,8 @@ import ReviseScreen from '../screens/ReviseScreen';
 import LearnScreen from '../screens/LearnScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import Settingscreen from "../screens/SettingsScreen";
+import TODOScreen from "../screens/TODOScreen";
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -102,7 +104,15 @@ function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="TabFour"
-        component={LearnScreen}
+        component={TODOScreen}
+        options={{
+          title: 'TODO',
+          tabBarIcon: ({ color }) => <TabBarIcon name="sticky-note" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="TabFive"
+        component={Settingscreen}
         options={{
           title: 'Settings',
           tabBarIcon: ({ color }) => <TabBarIcon name="gear" color={color} />,
@@ -119,5 +129,5 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <FontAwesome size={30} style={{ marginBottom: -3, color: Colors.defaultBtnColor, padding: 10 }} {...props} />;
 }
