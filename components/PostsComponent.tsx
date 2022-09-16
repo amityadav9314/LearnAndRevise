@@ -69,7 +69,7 @@ export default function PostsComponent(props: Props) {
     return (
       <View style={[styles.noTopic, themeContainerStyle]}>
         <Text style={[themeTextStyle]}>You have no nothing to revise today.</Text>
-        <FontAwesome style={[{fontSize: 50, marginBottom: 30, color: 'green'}]} name={'check'}/>
+        <FontAwesome style={[{textAlign: 'center', fontSize: 50, marginBottom: 30, color: 'green'}]} name={'check'}/>
         <Button
           onPress={onPressLearn}
           title="Start Learning"
