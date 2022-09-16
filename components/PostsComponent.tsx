@@ -1,15 +1,16 @@
 import * as WebBrowser from 'expo-web-browser';
-import { FlatList, ListRenderItemInfo, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
+import {FlatList, ListRenderItemInfo, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
 import * as constants from '../constants/General';
 
 import Colors from '../constants/Colors';
-import { Text, View } from './Themed';
+import {Text, View} from './Themed';
 import Loading from "./Loading";
 import ReadType from "../dtos/ReadType";
-import { FontAwesome } from '@expo/vector-icons';
-import { useEffect, useState } from "react";
+import {FontAwesome} from '@expo/vector-icons';
+import {useEffect, useState} from "react";
 import GetPosts from "../rest/getPosts";
 import PostRevise from "../rest/postRevise";
+import DeleteRevise from "../rest/deleteRevise";
 
 interface Props {
   readType: ReadType
@@ -37,7 +38,7 @@ export default function PostsComponent(props: Props) {
     console.log("topic data is not loaded");
     return (
       <View>
-        <Loading />
+        <Loading/>
       </View>
     );
   }
@@ -50,7 +51,33 @@ export default function PostsComponent(props: Props) {
     );
   }
 
-  const loadingComponent = <Loading />;
+  const loadingComponent = <Loading/>;
+
+  const markForRevision = (item: Post) => {
+    return (
+      <View>
+        <TouchableOpacity
+          onPress={() => handleMarkRevise(item.id, item.title)}
+          style={styles.touchable}
+        >
+          <FontAwesome style={styles.eye} name={'eye-slash'}/>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  const unMarkForRevision = (item: Post) => {
+    return (
+      <View>
+        <TouchableOpacity
+          onPress={() => handleUnmarkRevise(item.id, item.title)}
+          style={styles.touchable}
+        >
+          <FontAwesome style={styles.eye} name={'cloud'}/>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   const topicsComponent =
     <FlatList
@@ -59,7 +86,7 @@ export default function PostsComponent(props: Props) {
       keyExtractor={(item) => item.id.toString()}
       refreshing={!refreshed}
       onRefresh={refresh}
-      renderItem={({ item }: ListRenderItemInfo<Post>) => {
+      renderItem={({item}: ListRenderItemInfo<Post>) => {
         return (
           <View style={styles.topic}>
             <View>
@@ -74,15 +101,14 @@ export default function PostsComponent(props: Props) {
             </View>
             {
               props.readType == ReadType.LEARN
-              &&
-              <View>
-                <TouchableOpacity
-                  onPress={() => handleMarkPostAsRead(item.id, item.title)}
-                  style={styles.touchable}
-                >
-                  <FontAwesome style={styles.eye} name={'eye-slash'} />
-                </TouchableOpacity>
-              </View>
+              && !item.do_revise
+              && markForRevision(item)
+            }
+
+            {
+              props.readType == ReadType.LEARN
+              && item.do_revise
+              && unMarkForRevision(item)
             }
           </View>
         );
@@ -95,10 +121,20 @@ export default function PostsComponent(props: Props) {
   );
 }
 
-function handleMarkPostAsRead(id: number, title: String) {
+function handleMarkRevise(id: number, title: String) {
   PostRevise(id).then(r => {
     if (r.status == 'success') {
       alert("Post `" + title + "` marked to be revised later");
+    } else {
+      alert("Error: " + r.error);
+    }
+  });
+}
+
+function handleUnmarkRevise(id: number, title: String) {
+  DeleteRevise(id).then(r => {
+    if (r.status == 'success') {
+      alert("Post `" + title + "` deleted from to be revised list");
     } else {
       alert("Error: " + r.error);
     }
