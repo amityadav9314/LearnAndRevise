@@ -129,5 +129,5 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
-  return <FontAwesome size={30} style={{ marginBottom: -15, color: Colors.defaultBtnColor, padding: 10 }} {...props} />;
+  return <FontAwesome size={30} style={{ color: Colors.defaultBtnColor }} {...props} />;
 }
