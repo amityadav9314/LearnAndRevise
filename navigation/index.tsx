@@ -3,12 +3,12 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {FontAwesome} from '@expo/vector-icons';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import {ColorSchemeName, Pressable} from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -16,17 +16,17 @@ import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import ReviseScreen from '../screens/ReviseScreen';
 import LearnScreen from '../screens/LearnScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
-import LinkingConfiguration from './LinkingConfiguration';
+import {RootStackParamList, RootTabParamList, RootTabScreenProps} from '../types';
 import Settingscreen from "../screens/SettingsScreen";
 import TODOScreen from "../screens/TODOScreen";
+import LinkingConfiguration from './LinkingConfiguration';
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RootNavigator />
+      <RootNavigator/>
     </NavigationContainer>
   );
 }
@@ -40,10 +40,10 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
+      <Stack.Screen name="Root" component={BottomTabNavigator} options={{headerShown: false}}/>
+      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{title: 'Oops!'}}/>
+      <Stack.Group screenOptions={{presentation: 'modal'}}>
+        <Stack.Screen name="Modal" component={ModalScreen}/>
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -67,20 +67,20 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="TabOne"
         component={ReviseScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
+        options={({navigation}: RootTabScreenProps<'TabOne'>) => ({
           title: 'Revise',
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({color}) => <TabBarIcon name="home" color={color}/>,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
+              style={({pressed}) => ({
                 opacity: pressed ? 0.5 : 1,
               })}>
               <FontAwesome
                 name="info-circle"
                 size={25}
                 color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
+                style={{marginRight: 15}}
               />
             </Pressable>
           ),
@@ -91,7 +91,7 @@ function BottomTabNavigator() {
         component={LearnScreen}
         options={{
           title: 'Yours Posts',
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          tabBarIcon: ({color}) => <TabBarIcon name="user" color={color}/>,
         }}
       />
       <BottomTab.Screen
@@ -99,7 +99,7 @@ function BottomTabNavigator() {
         component={LearnScreen}
         options={{
           title: 'Everyone posts',
-          tabBarIcon: ({ color }) => <TabBarIcon name="random" color={color} />,
+          tabBarIcon: ({color}) => <TabBarIcon name="random" color={color}/>,
         }}
       />
       <BottomTab.Screen
@@ -107,7 +107,7 @@ function BottomTabNavigator() {
         component={TODOScreen}
         options={{
           title: 'TODO',
-          tabBarIcon: ({ color }) => <TabBarIcon name="sticky-note" color={color} />,
+          tabBarIcon: ({color}) => <TabBarIcon name="sticky-note" color={color}/>,
         }}
       />
       <BottomTab.Screen
@@ -115,7 +115,7 @@ function BottomTabNavigator() {
         component={Settingscreen}
         options={{
           title: 'Settings',
-          tabBarIcon: ({ color }) => <TabBarIcon name="gear" color={color} />,
+          tabBarIcon: ({color}) => <TabBarIcon name="gear" color={color}/>,
         }}
       />
     </BottomTab.Navigator>
@@ -129,5 +129,5 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
   color: string;
 }) {
-  return <FontAwesome size={30} style={{ color: Colors.defaultBtnColor }} {...props} />;
+  return <FontAwesome size={30} style={{color: Colors.defaultBtnColor}} {...props} />;
 }

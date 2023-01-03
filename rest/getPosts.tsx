@@ -9,7 +9,7 @@ async function GetPosts(readType: ReadType): Promise<PostsDTO> {
     }
     const resp = await fetch(url);
     const respJson = await resp.json();
-    console.log("Resp: " + JSON.stringify(respJson));
+    // console.log("Resp: " + JSON.stringify(respJson));
     return respJson;
   } catch (e) {
     console.log("Error occurred while fetch posts: " + e);

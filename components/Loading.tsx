@@ -6,7 +6,7 @@ import Colors from "../constants/Colors";
 const Loading = () => {
   return (
     <View style={styles.loader}>
-      <ActivityIndicator size="large" color={Colors.defaultBtnColor} />
+      <ActivityIndicator size="large" color={Colors.defaultBtnColor}/>
     </View>
   )
 }

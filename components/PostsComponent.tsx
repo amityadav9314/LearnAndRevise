@@ -39,7 +39,7 @@ export default function PostsComponent(props: Props) {
 
 
   const refresh = () => {
-    console.log("refresh method is called");
+    // console.log("refresh method is called");
     GetPosts(props.readType)
       .then(r => {
         setTopicData(r);
@@ -53,7 +53,7 @@ export default function PostsComponent(props: Props) {
 
 
   if (!topicData) {
-    console.log("topic data is not loaded");
+    // console.log("topic data is not loaded");
     return (
       <View>
         <Loading/>
@@ -68,14 +68,14 @@ export default function PostsComponent(props: Props) {
   const renderNoStateMessage = () => {
     return (
       <View style={[styles.noTopic, themeContainerStyle]}>
-        <Text style={[themeTextStyle]}>You have no nothing to revise today.</Text>
-        <FontAwesome style={[{textAlign: 'center', fontSize: 50, marginBottom: 30, color: 'green'}]} name={'check'}/>
-        <Button
+        <Text style={[styles.startLearningTxt, themeTextStyle]}>You have no nothing to revise today.</Text>
+        <FontAwesome style={[{textAlign: 'center', fontSize: 50, marginBottom: 10, color: 'green'}]} name={'check'}/>
+        <TouchableOpacity
+          style={styles.startLearningBtn}
           onPress={onPressLearn}
-          title="Start Learning"
-          color={Colors.defaultBtnColor}
-          accessibilityLabel="Learn BC"
-        />
+          >
+          <Text style={styles.startLearningTxt}>Start Learning</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -216,4 +216,22 @@ const styles = StyleSheet.create({
   darkThemeText: {
     color: '#d0d0c0',
   },
+  startLearningBtn:{
+    marginRight:40,
+    marginLeft:40,
+    paddingTop:10,
+    paddingBottom:10,
+    backgroundColor: Colors.defaultBtnColor,
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#fff'
+  },
+  startLearningTxt:{
+    color:'#fff',
+    textAlign:'center',
+    paddingLeft : 10,
+    paddingRight : 10,
+    fontSize: 18,
+
+  }
 });
